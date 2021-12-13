@@ -49,7 +49,7 @@
                     <div class="contact-list">
                         <!-- da popolare con un v-for -->
                         <ul>
-                            <li v-for="contacts,index in contacts">
+                            <li v-for="contacts,index in contacts" @click="currentConversation(index)">
 
                                 <img class="img-common" :src="'img/avatar'+ contacts.avatar +'.jpg'" :alt="contacts.name">
                                 <span>{{contacts.name}}</span>
@@ -63,10 +63,10 @@
                 <div class="right-column">
                     <div class="header-left">
                         <div class="user-info">
-                            <img class="img-common" src="img/avatar_io.jpg" alt="foto profilo">
+                            <img class="img-common" :src="'img/avatar' +contacts[currentActive].avatar +'.jpg'" alt="foto profilo">
                             <div>
-                                <p class="user-name">nome utente</p>
-                                <p>ultimo accesso oggi alle</p>
+                                <p class="user-name">{{contacts[currentActive].name}}</p>
+                                <p class="last-access">ultimo accesso oggi alle</p>
                             </div>
                         </div>
                         
@@ -77,14 +77,10 @@
 
                         </div>
                     </div>
-                    <div class="conversation">
-                        <div class="message sent">
-                            qualcosa
-                            <p class="date-time">data e ora</p>
-                        </div>
-                        <div class="message received">
-                            qualcosa di molto più lungo che mi occupa ma tipo un botto di più
-                            <p class="date-time">data e ora</p>
+                    <div class="conversation" >
+                        <div v-for="message in contacts[currentActive].messages" class="message " :class="message.status" >
+                            {{message.text}}
+                            <p class="date-time">{{message.date}}</p>
                         </div>
                     </div>
                     <div class="invio-messaggi">
