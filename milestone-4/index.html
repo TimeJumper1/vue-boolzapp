@@ -43,13 +43,12 @@
                     </div>
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="cerca i tuoi contatti">
-
+                        <input type="text" placeholder="cerca i tuoi contatti" v-model="search" @keyup="filterContact">
                     </div>
                     <div class="contact-list">
                         <!-- da popolare con un v-for -->
                         <ul>
-                            <li v-for="contacts,index in contacts" @click="currentConversation(index)">
+                            <li v-for="contacts,index in contacts" @click="currentConversation(index)" v-if="contacts.visible" >
 
                                 <img class="img-common" :src="'img/avatar'+ contacts.avatar +'.jpg'" :alt="contacts.name">
                                 <span>{{contacts.name}}</span>
@@ -88,19 +87,18 @@
                             <i class="far fa-smile"></i>
                         </div>
                         <div class="new-message" >
-                            <input  type="text" placeholder="Scrivi un nuovo messaggio" v-model="newMessage" @keyup.enter="addNewMessage(newMessage, currentActive, exactData) ">
+                            <input  type="text" placeholder="Scrivi un nuovo messaggio" v-model="newMessage" @keyup.enter="addNewMessage(newMessage, currentActive)" >
                         </div>
                         <div>
                             <i class="fas fa-microphone"></i>
-                            
-                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@ const app = new Vue(
     {
         el: '#root',
         data: {
-            exactData:'',
+            search:'',
             currentActive: 0,
             newMessage: '',
             contacts: [
@@ -96,27 +96,38 @@ const app = new Vue(
 
         },
         methods:{
-            
             currentConversation: function(index){
                 this.currentActive = index
             },
-            addNewMessage: function(newMessage, currentActive, ){
-                this.contacts[currentActive].messages.push({
-                    date: 'placeholder',
-                    text: newMessage,
-                    status: 'sent'
-                });
-                setTimeout(() => {
+            addNewMessage: function(newMessage, currentActive){
+                if (this.newMessage.trim().length > 0){
                     this.contacts[currentActive].messages.push({
-                        date: 'placeholder',
-                        text: 'ok',
-                        status: 'received'
+                        date: dayjs().format("DD/MM/YYYY HH:mm:ss"),
+                        text: newMessage,
+                        status: 'sent'
                     });
-                },1000)
-                this.newMessage= ''
+                    setTimeout(() => {
+                        this.contacts[currentActive].messages.push({
+                            date: dayjs().format("DD/MM/YYYY HH:mm:ss"),
+                            text: 'ok',
+                            status: 'received'
+                        });
+                    },1000)
+                    this.newMessage= ''
+                }
+            },
+            filterContact: function(){  
+                this.contacts.forEach((element) => {
+                    if (element.name.includes(this.search)){
+                        element.visible = true; 
+                    }else{
+                        element.visible = false; 
+                    };
+                });
             },
             
-        }
+        },
+        
         
     }
     
