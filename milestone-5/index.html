@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+</head>
+<body>
+    <div id="root">
+        <!-- sfondo -->
+        <div class="background">
+            <!-- app container -->
+            <div class="app-wrapper">
+                <!-- colonna sinistra -->
+                <div class="left-column">
+                    <div class="header-left">
+                        <div class="user-info">
+                            <img class="img-common" src="img/avatar_io.jpg" alt="foto profilo">
+                            <span class="user-name">nome utente</span>
+                        </div>
+                        
+                        <div class="icon-common icon-position">
+                            <i class="fas fa-circle-notch"></i>
+                            <i class="fas fa-comment-alt"></i>
+                            <i class="fas fa-ellipsis-v"></i>
+
+                        </div>
+                    </div>
+                    <div class="notification-space">
+                        <div class="bell-container">
+                            <i class="fas fa-bell-slash"></i>
+                        </div>
+                        <div class="notification-info">
+                            <p>Ricevi notifiche di nuovi mesaggi</p>
+                            <span>attiva notifiche desktop</span>
+                        </div>
+                    </div>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="cerca i tuoi contatti" v-model="search" @keyup="filterContact">
+                    </div>
+                    <div class="contact-list">
+                        <!-- da popolare con un v-for -->
+                        <ul>
+                            <li v-for="contacts,index in contacts" @click="currentConversation(index)" v-if="contacts.visible" >
+
+                                <img class="img-common" :src="'img/avatar'+ contacts.avatar +'.jpg'" :alt="contacts.name">
+                                <span>{{contacts.name}}</span>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                    
+                </div>
+                <!-- colonna destra -->
+                <div class="right-column">
+                    <div class="header-left">
+                        <div class="user-info">
+                            <img class="img-common" :src="'img/avatar' +contacts[currentActive].avatar +'.jpg'" alt="foto profilo">
+                            <div>
+                                <p class="user-name">{{contacts[currentActive].name}}</p>
+                                <p class="last-access">ultimo accesso oggi alle</p>
+                            </div>
+                        </div>
+                        
+                        <div class="icon-common icon-position">
+                            <i class="fas fa-bell-slash"></i>
+                            <i class="fas fa-paperclip"></i>
+                            <i class="fas fa-ellipsis-v"></i>
+
+                        </div>
+                    </div>
+                    <div class="conversation" >
+                        <div  v-for="message,index in contacts[currentActive].messages" class="message " :class="message.status" >
+                            {{message.text}}
+                            <span class="hidden-menu" @click="showMenu(index)"><i class="fas fa-chevron-down"></i></span>
+                            <p class="date-time">{{message.date}}</p>
+                            <div class="menu-delete" v-if="hiddenMenu === index">
+                                <p>info messaggi</p>
+                                <p @click="deleteMessage(index)">elimina messaggi</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="invio-messaggi">
+                        <div>
+                            <i class="far fa-smile"></i>
+                        </div>
+                        <div class="new-message" >
+                            <input  type="text" placeholder="Scrivi un nuovo messaggio" v-model="newMessage" @keyup.enter="addNewMessage(newMessage, currentActive)" >
+                        </div>
+                        <div>
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+</body>
+</html>
