@@ -120,7 +120,8 @@ const app = new Vue(
             },
             filterContact: function(){  
                 this.contacts.forEach((element) => {
-                    if (element.name.includes(this.search)){
+                    
+                    if (element.name.toLowerCase().includes(this.search.toLowerCase())){
                         element.visible = true; 
                     }else{
                         element.visible = false; 
